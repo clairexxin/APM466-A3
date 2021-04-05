@@ -1,0 +1,34 @@
+---
+title: "APM466-A3"
+author: "Jiaxin Xu"
+date: "31/03/2021"
+output: html_document
+---
+## Code for Question 1
+
+## Part a
+```{r}
+P = matrix( c(7/10, 2/10, 1/10, 0, 
+        1/10, 5/10, 2/10, 2/10,
+        1/10, 3/10, 3/10, 3/10,
+        0, 0, 0, 1), nrow=4, ncol=4, byrow=TRUE)
+rownames(P) <- c("good", "bad", "crisis", "default")
+colnames(P) <- c("good", "bad", "crisis", "default")
+matrixcalc::matrix.power(P, 3)
+```
+
+## Part b
+```{r}
+mat_power <- function(A,n) {
+  p <- eigen(A)$vectors
+  d <- diag(eigen(A)$values)
+  B <- matrix(0, ncol = 4, nrow = 4)
+  for (i in c(1:4)) {
+    B[i,i] = d[i,i]^n
+  }
+  return(p %*% B %*% solve(p))
+}
+P_2m <- mat_power(P,1/6)
+P_2m[3,4]
+```
+
